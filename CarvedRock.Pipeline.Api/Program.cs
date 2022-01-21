@@ -33,7 +33,22 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseMiddleware<GlobalErrorHandlerMiddleware>()
-   .UseSerilogRequestLogging();
+   .UseSerilogRequestLogging()
+   .UseEndpoints(endpoints =>
+   {
+       endpoints.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
+       {
+           Predicate = (_) => false
+       });
+       endpoints.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
+       {
+           Predicate = (_) => false
+       });
+       endpoints.MapHealthChecks("/health/startup", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
+       {
+           Predicate = (_) => false
+       });
+   });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
