@@ -4,19 +4,19 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:6191",
-      "sslPort": 44307
+      "applicationUrl": "http://localhost:45819",
+      "sslPort": 0
     }
   },
   "profiles": {
-    "CarvedRock.Api": {
+    "CarvedRock.Pipeline.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7024;http://localhost:5024",
+      "applicationUrl": "http://localhost:5208",
       "dotnetRunMessages": true
     },
     "IIS Express": {
@@ -31,8 +31,7 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      "publishAllPorts": true,
-      "useSSL": true
+      "publishAllPorts": true
     }
   }
 }
