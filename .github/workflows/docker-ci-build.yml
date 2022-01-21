@@ -48,4 +48,4 @@ jobs:
           context: .
           file: ./CarvedRock.Pipeline.Api/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:latest, ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:$(date +%s),${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ github.run_number }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:latest, ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ steps.date.outputs.date }},${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ github.run_number }}
