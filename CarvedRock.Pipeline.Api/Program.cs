@@ -8,13 +8,23 @@ using Serilog.Events;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
+// pjmx - start
+var seqIngestionPath = $"http://{Environment.GetEnvironmentVariable("MY_SEQ_SERVICE_HOST")}";
+var ingestionPort = Environment.GetEnvironmentVariable("MY_SEQ_SERVICE_PORT_INGESTION");
+if (string.IsNullOrWhiteSpace(ingestionPort) == false)
+{
+    seqIngestionPath += $":{ingestionPort}";
+}
+
+// pjmx - end
+
 var name = typeof(Program).Assembly.GetName().Name;
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
     .Enrich.WithProperty("Assembly", name)
-    .WriteTo.Seq(serverUrl: "http://ingestion.seq.mydomain.com")
+    .WriteTo.Seq(serverUrl: seqIngestionPath)
     .WriteTo.Console()
     .CreateLogger();
 
