@@ -46,6 +46,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./CarvedRock.Pipeline.Api/Dockerfile
+          file: ./CarvedRockPipelineSolution/CarvedRock.Pipeline.Api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:latest, ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ github.run_number }}
