@@ -1,6 +1,7 @@
 using CarvedRock.Api.Domain;
 using CarvedRock.Api.Interfaces;
 using CarvedRock.Api.Middleware;
+using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 using Serilog.Events;
 
@@ -29,6 +30,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 app.UseRouting();
@@ -56,6 +58,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".yaml"] = "application/yaml";
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    ContentTypeProvider = provider
+});
 
 app.UseHttpsRedirection();
 
