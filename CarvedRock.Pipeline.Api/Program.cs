@@ -24,6 +24,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
     .Enrich.WithProperty("Assembly", name)
+    .Filter.ByExcluding("RequestPath like '/health%'")
     .WriteTo.Seq(serverUrl: seqIngestionPath)
     .WriteTo.Console()
     .CreateLogger();
