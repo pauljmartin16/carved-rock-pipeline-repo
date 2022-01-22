@@ -7,7 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-    tags: [v1.1.*]
+    tags: 
+      - 'v*.*.*'
     paths-ignore:
       - README.md
       - .vscode/**
@@ -31,6 +32,20 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
@@ -49,4 +64,5 @@ jobs:
           context: .
           file: ./CarvedRock.Pipeline.Api/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:latest, ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ github.run_number }}
+          tags: ${{ steps.meta.outputs.tags }}
+          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:latest, ${{ secrets.DOCKERHUB_USERNAME }}/carvedrockpipelineapi:${{ github.run_number }}
