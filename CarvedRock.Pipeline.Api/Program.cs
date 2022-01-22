@@ -1,6 +1,7 @@
 using CarvedRock.Api.Domain;
 using CarvedRock.Api.Interfaces;
 using CarvedRock.Api.Middleware;
+using CarvedRock.Pipeline.Api.Middleware;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 using Serilog.Events;
@@ -45,7 +46,10 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 app.UseRouting();
 app.UseMiddleware<GlobalErrorHandlerMiddleware>()
-   .UseSerilogRequestLogging()
+   .UseSerilogRequestLogging(opts =>
+   {
+       opts.GetLevel = LogHelper.CustomGetLevel;
+   })
    .UseEndpoints(endpoints =>
    {
        endpoints.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
