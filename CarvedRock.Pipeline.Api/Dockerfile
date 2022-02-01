@@ -18,4 +18,12 @@ RUN dotnet publish "CarvedRock.Pipeline.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CarvedRock.Pipeline.Api.dll"]
+# ENTRYPOINT ["dotnet", "CarvedRock.Pipeline.Api.dll"]
+
+COPY ./startup.sh .
+USER root
+RUN chmod +x startup.sh
+RUN ls -l
+USER appuser
+
+CMD ["sh", "./startup.sh"]
