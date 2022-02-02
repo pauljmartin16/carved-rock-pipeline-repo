@@ -9,13 +9,18 @@ WORKDIR /src
 COPY ["CarvedRock.Pipeline.Api/CarvedRock.Pipeline.Api.csproj", "CarvedRock.Pipeline.Api/"]
 RUN dotnet restore "CarvedRock.Pipeline.Api/CarvedRock.Pipeline.Api.csproj"
 COPY . .
+
 WORKDIR "/src/CarvedRock.Pipeline.Api"
 RUN dotnet build "CarvedRock.Pipeline.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "CarvedRock.Pipeline.Api.csproj" -c Release -o /app/publish
 
+COPY ["CarvedRock.Pipeline.Api/startup.sh", "/app/publish"]
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CarvedRock.Pipeline.Api.dll"]
+# ENTRYPOINT ["dotnet", "CarvedRock.Pipeline.Api.dll"]
+
+CMD ["sh", "./startup.sh"]
