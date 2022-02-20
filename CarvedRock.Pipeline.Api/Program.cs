@@ -9,12 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 // pjmx - start
-var seqIngestionPath = $"http://{Environment.GetEnvironmentVariable("MY_SEQ_SERVICE_HOST")}";
+/*
+var 
+
+IngestionPath = $"http://{Environment.GetEnvironmentVariable("MY_SEQ_SERVICE_HOST")}";
 var ingestionPort = Environment.GetEnvironmentVariable("MY_SEQ_SERVICE_PORT_INGESTION");
 if (string.IsNullOrWhiteSpace(ingestionPort) == false)
 {
     seqIngestionPath += $":{ingestionPort}";
 }
+*/
 
 // pjmx - end
 
@@ -25,7 +29,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithMachineName()
     .Enrich.WithProperty("Assembly", name)
     .Filter.ByExcluding("RequestPath like '/health%'")
-    .WriteTo.Seq(serverUrl: seqIngestionPath)
+//    .WriteTo.Seq(serverUrl: seqIngestionPath)
     .WriteTo.Console()
     .CreateLogger();
 
