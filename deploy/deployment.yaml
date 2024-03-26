@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: carvedrockpipelineapi
+  name: carvedrockpipelineapi
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: carvedrockpipelineapi
+  template:
+    metadata:
+      labels:
+        app: carvedrockpipelineapi
+    spec:
+      containers:
+      - image: 316416775463.dkr.ecr.us-east-1.amazonaws.com/carved-rock:carved-rock4
+        name: carvedrockpipelineapi
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: appsettings-volume
+          mountPath: /app/appsettings.json
+          subPath: appsettings.json
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        livenessProbe:
+          initialDelaySeconds: 2
+          periodSeconds: 2
+          httpGet:
+            port: 80
+            path: /health/live
+        readinessProbe:
+          initialDelaySeconds: 2
+          periodSeconds: 2
+          httpGet:
+            port: 80
+            path: /health/ready
+      volumes:
+      - name: appsettings-volume
+        configMap:
+          name: carvedrockapi-configmap

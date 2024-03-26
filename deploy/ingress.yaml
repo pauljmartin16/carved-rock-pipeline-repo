@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: carvedrockpipelineapi-ingress
+  labels:
+    app: carvedrockpipelineapi
+spec:
+  defaultBackend:
+    service:
+      name: carvedrockpipelineapi
+      port: 
+        number: 80
+  rules:
+  - host: a1f2a6d06b1ab42f1ad7c330783e8705-1138052789.us-east-1.elb.amazonaws.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: carvedrockpipelineapi
+            port: 
+              number: 80
+        pathType: ImplementationSpecific
