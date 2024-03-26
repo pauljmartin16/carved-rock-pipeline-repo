@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: carvedrockapi-configmap
+  labels:
+    {{- include "carvedrockpipelineapi.labels" . | nindent 4 }}
+data:
+  appsettings.json: |-
+    {
+      "Serilog": {
+        "MinimumLevel": {
+          "Default": "Information",
+          "Override": {
+            "Microsoft": "Warning",
+            "System": "Warning"
+          }
+        }
+      },
+      "AllowedHosts": "*"
+    }

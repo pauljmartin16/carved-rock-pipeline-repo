@@ -1,0 +1,17 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "carvedrockpipelineapi.fullname" . }}
+  labels:
+    {{- include "carvedrockpipelineapi.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "carvedrockpipelineapi.selectorLabels" . | nindent 4 }}
+{{- end }}
