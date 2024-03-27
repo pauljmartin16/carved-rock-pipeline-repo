@@ -76,4 +76,17 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./CarvedRock.Pipeline.Api/Dockerfile .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image-public
+        env:
+          #Update to your ECR registry
+          ECR_REGISTRY: public.ecr.aws/a3y0c5y9/carvedrockpipelineapi
+          ECR_REPOSITORY: carved-rock
+          IMAGE_TAG: carved-rock${{ github.run_number }}
+        run: |
+          # Build a docker container and push it to ECR
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./CarvedRock.Pipeline.Api/Dockerfile .
+          echo "Pushing image to ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           
