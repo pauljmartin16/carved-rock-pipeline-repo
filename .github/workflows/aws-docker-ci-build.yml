@@ -69,9 +69,9 @@ jobs:
         env:
           #Update to your ECR registry
           #private
-          #ECR_REGISTRY: 316416775463.dkr.ecr.us-east-1.amazonaws.com
+          ECR_REGISTRY: 316416775463.dkr.ecr.us-east-1.amazonaws.com
           #public
-          ECR_REGISTRY: public.ecr.aws/a3y0c5y9
+          #ECR_REGISTRY: public.ecr.aws/a3y0c5y9
           ECR_REPOSITORY: carved-rock
           IMAGE_TAG: carved-rock${{ github.run_number }}
         run: |
